@@ -1,0 +1,43 @@
+void remove(binary_free* rem) {
+	if (rem->left && rem->right) {
+		//Оба наследника есть
+		binary_free* under_the_tree_max = search_max(rem->left);
+		rem->info = under_the_tree_max->info;
+		remove(under_the_tree_max);
+		return;
+	}
+	else if (rem->left) {
+		//Есть только левый наследник
+		if (rem->parent->right == rem) {
+			rem->parent->right = rem->right;
+			rem->right->parent = rem->parent;
+		}
+		else {
+			rem->parent->left = rem->right;
+			rem->right->parent = rem->parent;
+		}
+	}
+	else if (rem->right) {
+		//Есть только правый наследник
+		if (rem->parent->right == rem) {
+			rem->parent->right = rem->right;
+			rem->right->parent = rem->parent;
+		}
+		else {
+			rem->parent->left = rem->right;
+			rem->right->parent = rem->parent;
+
+		}
+	}
+	else {
+		//Нет наследников
+		if (rem == rem->parent->left) {
+			rem->parent->left = nullptr;
+		}
+		else {
+			rem->parent->right = nullptr;
+		}
+	}
+	delete rem;
+
+}
